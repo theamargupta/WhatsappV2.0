@@ -1,5 +1,6 @@
 import React from 'react';
 import SideBar from '../../components/Sidebar';
+import Chat from '../../components/Chat';
 import './index.scss';
 
 const Home = () => {
@@ -7,7 +8,7 @@ const Home = () => {
     <div className='app'>
       <div className='app_body'>
         <SideBar />
-        {/* Chat */}
+        <Chat />
       </div>
     </div>
   );

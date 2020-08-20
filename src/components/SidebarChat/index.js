@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar } from '@material-ui/core';
+import Swal from 'sweetalert2';
 import './index.scss';
 
 const SidebarChat = ({ addNewChat }) => {
@@ -7,8 +8,21 @@ const SidebarChat = ({ addNewChat }) => {
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
-  const createChat = () => {
-    return 'aamr';
+  const createChat = async () => {
+    const { value } = await Swal.fire({
+      title: 'Please Enter Name for Chat',
+      input: 'text',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to write something!';
+        }
+      },
+    });
+
+    if (value) {
+      Swal.fire(`Your Chat Room Name is ${value}`);
+    }
   };
   return !addNewChat ? (
     <div className='sidebarChat'>
