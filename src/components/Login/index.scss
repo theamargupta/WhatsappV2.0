@@ -1,0 +1,27 @@
+@import '../../utils/var';
+.login {
+  background: #f8f8f8;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  .login__container {
+    padding: 100px;
+    text-align: center;
+    background: white;
+    border-radius: 0.6rem;
+    box-shadow: 0 1px 3px rgba($color: #000000, $alpha: 0.12),
+      0 1px 3px rgba($color: #000000, $alpha: 0.12);
+    img {
+      object-fit: contain;
+      height: 100px;
+      margin-bottom: 2.5rem;
+    }
+    button {
+      margin-top: 3rem;
+      text-transform: inherit !important;
+      background: #0a8d48 !important;
+      color: white;
+    }
+  }
+}
