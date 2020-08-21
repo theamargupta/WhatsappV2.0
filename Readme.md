@@ -1,5 +1,5 @@
 <h4 align="center">
-  <img alt="common readme" src="common-readme.png">
+  [Live Demo](https://amar-whastappv2o.netlify.app/)
 </h4>
 
 **_Module consumers!_** Frustrated by each module having its own wildly
