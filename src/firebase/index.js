@@ -11,7 +11,7 @@ const Config = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
-}
+};
 firebase.initializeApp(Config);
 
 const firestore = firebase.firestore();
@@ -21,5 +21,5 @@ export const storage = firebase.storage();
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
-
+export { firebase };
 export default firestore;

@@ -6,11 +6,15 @@ import Search from '@material-ui/icons/Search';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import MicIcon from '@material-ui/icons/Mic';
 import { useParams } from 'react-router-dom';
+import { useStateValue } from '../../context/stateProvider';
 import './index.scss';
-import firestore from '../../firebase';
+import Swal from 'sweetalert2';
+import firestore, { firebase, auth } from '../../firebase';
 
 const Chat = () => {
-  const [message, setMessage] = useState('');
+  const [{ user }] = useStateValue();
+  const [message, setMessage] = useState([]);
+  const [messages, setMessages] = useState([]);
   const { roomId } = useParams();
   const [roomName, setRoomName] = useState('');
   useEffect(() => {
@@ -19,10 +23,37 @@ const Chat = () => {
         .collection('rooms')
         .doc(roomId)
         .onSnapshot((snap) => setRoomName(snap.data().name));
+      firestore
+        .collection('rooms')
+        .doc(roomId)
+        .collection('messages')
+        .orderBy('timestamp', 'asc')
+        .onSnapshot((snap) => setMessages(snap.docs.map((doc) => doc.data())));
     }
   }, [roomId]);
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You want to Logout',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, take me out of it!',
+    }).then((result) => {
+      if (result.value) {
+        auth.signOut();
+        Swal.fire('Done!', 'nice', 'success');
+      }
+    });
+  };
   const handleClick = (e) => {
     e.preventDefault();
+    firestore.collection('rooms').doc(roomId).collection('messages').add({
+      messages: message,
+      name: user.displayName,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
     console.log(message);
     setMessage('');
   };
@@ -33,7 +64,12 @@ const Chat = () => {
 
         <div className='chat__headerInfo'>
           <h3>{roomName}</h3>
-          <p>Last Seen at...</p>
+          <p>
+            last seen
+            {new Date(
+              messages[messages.length - 1]?.timestamp?.toDate()
+            ).toString()}
+          </p>
         </div>
         <div className='chat__headerRight'>
           <IconButton>
@@ -43,19 +79,28 @@ const Chat = () => {
             <AttachFile className='chat__headerRightIcon' />
           </IconButton>
           <IconButton>
-            <MoreVertIcon className='chat__headerRightIcon' />
+            <MoreVertIcon
+              className='chat__headerRightIcon'
+              onClick={() => handleLogout()}
+            />
           </IconButton>
         </div>
       </div>
       <div className='chat__body'>
-        <p className='chat__message'>
-          <span className='chat__name'>Amar Gupta</span> Hi whatsup
-          <span className='chat__timestamp'>3:53PM</span>
-        </p>
-        <p className={`chat__message ${true && 'chat__reciever'}`}>
-          <span className='chat__name'>Amar Gupta</span> Hi whatsup
-          <span className='chat__timestamp'>3:53PM</span>
-        </p>
+        {messages.map((data, index) => (
+          <p
+            key={index}
+            className={`chat__message ${
+              data.name === user.displayName && 'chat__reciever'
+            }`}
+          >
+            <span className='chat__name'>{data.name}</span>
+            {data.messages}
+            <span className='chat__timestamp'>
+              {new Date(data.timestamp?.toDate()).toString()}
+            </span>
+          </p>
+        ))}
       </div>
       <div className='chat__footer'>
         <InsertEmoticonIcon />

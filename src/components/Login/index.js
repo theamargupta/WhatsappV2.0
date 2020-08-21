@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@material-ui/core';
-import { signInWithGoogle } from '../../firebase';
+import { signInWithGoogle, auth } from '../../firebase';
+import { actionGenrator } from '../../context/reducer';
+import { useStateValue } from '../../context/stateProvider';
 import './index.scss';
 
 const Login = () => {
+  // eslint-disable-next-line
+  const [{ user }, dispatch] = useStateValue();
   const signin = () => {
-    signInWithGoogle().then((result) => console.log(result));
+    signInWithGoogle().then((result) => dispatch(actionGenrator(result.user)));
   };
-
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      dispatch(actionGenrator(user));
+    });
+  }, [dispatch]);
   return (
     <div className='login'>
       <div className='login__container'>

@@ -4,10 +4,22 @@ import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 import firebase from '../../firebase';
 import './index.scss';
+import firestore from '../../firebase';
 
 const SidebarChat = ({ addNewChat, id, name }) => {
   const history = useHistory();
   const [seed, setSeed] = useState('');
+  const [message, setMessage] = useState('');
+  useEffect(() => {
+    if (id) {
+      firestore
+        .collection('rooms')
+        .doc(id)
+        .collection('messages')
+        .orderBy('timestamp', 'desc')
+        .onSnapshot((snap) => setMessage(snap.docs.map((doc) => doc.data())));
+    }
+  }, [id]);
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
@@ -34,7 +46,7 @@ const SidebarChat = ({ addNewChat, id, name }) => {
       <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
       <div className='sidebarChat__info'>
         <h2>{name}</h2>
-        <p>Last message....</p>
+        <p>{message[0]?.messages}</p>
       </div>
     </div>
   ) : (
