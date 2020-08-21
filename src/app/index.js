@@ -1,9 +1,4 @@
-import React, { Suspense } from 'react';
-import AppRoute from '../router';
-import Loader from '../components/Loader';
+import React from 'react';
+import Home from '../container/Home';
 
-export default () => (
-  <Suspense fallback={<Loader />}>
-    <AppRoute />
-  </Suspense>
-);
+export default () => <Home />;

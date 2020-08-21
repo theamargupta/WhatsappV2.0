@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar } from '@material-ui/core';
 import Swal from 'sweetalert2';
+import { useHistory } from 'react-router-dom';
+import firebase from '../../firebase';
 import './index.scss';
 
-const SidebarChat = ({ addNewChat }) => {
+const SidebarChat = ({ addNewChat, id, name }) => {
+  const history = useHistory();
   const [seed, setSeed] = useState('');
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
@@ -16,6 +19,8 @@ const SidebarChat = ({ addNewChat }) => {
       inputValidator: (value) => {
         if (!value) {
           return 'You need to write something!';
+        } else {
+          firebase.collection('rooms').add({ name: value });
         }
       },
     });
@@ -25,10 +30,10 @@ const SidebarChat = ({ addNewChat }) => {
     }
   };
   return !addNewChat ? (
-    <div className='sidebarChat'>
+    <div className='sidebarChat' onClick={() => history.push(`/rooms/${id}`)}>
       <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
       <div className='sidebarChat__info'>
-        <h2>Room Name</h2>
+        <h2>{name}</h2>
         <p>Last message....</p>
       </div>
     </div>

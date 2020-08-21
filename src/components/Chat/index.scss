@@ -55,5 +55,25 @@
       margin-left: auto;
     }
   }
-  //   .chat__footer{}
+  .chat__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3.9rem;
+    border-top: 1px solid $LightGray;
+    form {
+      flex: 1;
+      display: flex;
+      input {
+        flex: 1;
+        border-radius: 2rem;
+        padding: 0.6rem;
+        border: none;
+      }
+    }
+    & > .MuiSvgIcon-root {
+      padding: 0.6rem;
+      color: gray;
+    }
+  }
 }
