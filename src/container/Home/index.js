@@ -6,7 +6,7 @@ import Login from '../../components/Login';
 import './index.scss';
 
 const Home = () => {
-  const [user, setUser] = useState(null);
+  const [user] = useState(null); //setUser
   return (
     <div className='app'>
       {!user ? (
