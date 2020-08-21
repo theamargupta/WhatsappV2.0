@@ -1,12 +1,10 @@
 <h4 align="center">
-
 # [My Portfolio](theamargupta.tech)
-
 </h4>
 
 # [Live Demo](https://amar-whastappv2o.netlify.app/)
 
-**_Its a what's Clone!_** I made it with lots of love and if you want to join
+**_Its a what'sapp Clone!_** I made it with lots of love and if you want to join
 **Colaboration** or **Partner**? for project you can contact me
 
 <!--
