@@ -1,8 +1,7 @@
-# [Live Demo](https://amar-whastappv2o.netlify.app/)
-
 <h4 align="center">
-(theamargupta.tech)
+[My Portfolio](theamargupta.tech)
 </h4>
+# [Live Demo](https://amar-whastappv2o.netlify.app/)
 
 **_Its a what's Clone!_** I made it with lots of love and if you want to join
 **Colaboration** or **Partner**? for project you can contact me
